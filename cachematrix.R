@@ -1,15 +1,33 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Coursera programming assignment 2 (wk 3)
+## Two functions: one to create a cache-able matrix, one to
+## get the inverse of the matrix if cached or to
+## calculate the inverse of the matrix is cache is empty
 
-## Write a short comment describing this function
-
+## Make a cache-able matrix
 makeCacheMatrix <- function(x = matrix()) {
-
+  i <- NULL
+  set <- function(y) {
+    x <<- y
+    i <<- NULL
+  }
+  get <- function() x
+  setinv <- function(inv) i <<- inv
+  getinv <- function() i
+  list(set = set, get = get,
+       setinv = setinv,
+       getinv = getinv)
 }
 
-
-## Write a short comment describing this function
-
+## Check for cached inverse matrix, if none exists calculate the inverse
+## and put in cache
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  i <- x$getinv()
+  if(!is.null(i)) {
+    message("getting cached data")
+    return(i)
+  }
+  data <- x$get()
+  i <- solve(data, ...)
+  x$setinv(i)
+  i
 }
